@@ -164,7 +164,7 @@ function addDesktopInstructions() {
 // ── Pause button ──────────────────────────────────────────
 function createPauseButton() {
     pauseButton = document.createElement('button');
-    pauseButton.textContent = '⏸';
+    pauseButton.textContent = '||';
     Object.assign(pauseButton.style, {
         position: 'fixed', top: IS_MOBILE ? '14px' : '44px', right: '14px',
         background: 'rgba(255,255,255,0.13)',
@@ -186,7 +186,7 @@ function togglePause() {
         pauseButton.textContent = '▶';
     } else {
         moveTimer = setInterval(moveSnake, MOVE_INTERVAL);
-        pauseButton.textContent = '⏸';
+        pauseButton.textContent = '||';
     }
 }
 
@@ -358,9 +358,9 @@ function createMobileControls() {
     const zPad = document.createElement('div');
     zPad.id = 'mc-zpad';
 
-    const mkZ = (symbol, label, dir) => {
+    const mkZ = (symbol, dir) => {
         const btn = document.createElement('button');
-        btn.innerHTML = `${symbol}<span class="zlabel">${label}</span>`;
+        btn.textContent = symbol;
         btn.style.background = hexColor(COLORS.zAxis);
         btn.addEventListener('touchstart', e => {
             e.preventDefault();
@@ -374,8 +374,8 @@ function createMobileControls() {
         zPad.appendChild(btn);
     };
 
-    mkZ('↗', 'INTO', { x: 0, y: 0, z: -1 });
-    mkZ('↙', 'OUT',  { x: 0, y: 0, z:  1 });
+    mkZ('↗', { x: 0, y: 0, z: -1 });
+    mkZ('↙', { x: 0, y: 0, z:  1 });
 
     wrap.appendChild(dpad);
     wrap.appendChild(zPad);
@@ -546,7 +546,7 @@ function gameOver() {
     isGameOver = true;
     clearInterval(moveTimer);
     moveTimer = null;
-    if (pauseButton) pauseButton.textContent = '⏸';
+    if (pauseButton) pauseButton.textContent = '||';
     finalScore.textContent = `Your score: ${score}`;
     gameOverScreen.style.display = 'flex';
 }
@@ -555,7 +555,7 @@ function restartGame() {
     score = 0; isGameOver = false; isPaused = false;
     direction = nextDirection = { x: 1, y: 0, z: 0 };
     directionQueue = [];
-    if (pauseButton) pauseButton.textContent = '⏸';
+    if (pauseButton) pauseButton.textContent = '||';
 
     snake.forEach(s => gameGroup.remove(s.mesh));
     if (food) gameGroup.remove(food.mesh);
